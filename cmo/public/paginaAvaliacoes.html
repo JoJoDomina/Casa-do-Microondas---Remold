@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa do Microondas</title>
+<link rel="stylesheet" href="./paginaAvaliacoes.css">
+
+</head>
+
+
+<body>
+    <div id="root"></div>
+    <header>
+    <div class="barra-navegacao">
+    <div class="logo">
+    <img src="./navbar/logo.png" alt="Logo">
+    </div>
+    <div class="nome-barra-de-navegacao">Casa do Microondas</div>
+    <a href="./paginaDeLogin.html">
+    <img src="./navbar/login_icon.png" class="botao-de-login">
+    </a>
+    </div>
+    </div>
+     <div class="atalhos-complementares">
+            <a href="./index.html" class="atalho-complementar">Ínicio</a>
+            <a href="./paginaDeContato.html" class="atalho-complementar">Contato</a>
+            <a href="./paginaServico.html" class="atalho-complementar">Serviços</a>
+            <a href="pagina4.html" class="atalho-complementar">Localização</a>
+            <a href="pagina4.html" class="atalho-complementar">Nossa História</a>
+            <a href="./paginaAvaliacoes.html" class="atalho-complementar">Avaliações</a>
+            </div>
+            </header>
+            
+    
+
+<div class="conteudo-da-pagina">
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avaliações</title>
+    <style>
+        body {
+            background-image: url('/Users/aluno/Downloads/mesa-de-madeira-contem-refeicao-saudavel-com-legumes-frescos-gerados-por-ia.jpg'); 
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+        h1, h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #review-form {
+            width: 400px;
+            margin: 0 auto;
+            background-color: gray;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .review {
+            border: 1px solid gray;
+            padding: 10px;
+            width: 400px;
+            background-color:gray;
+            border-radius: 10px;
+            margin: 0 auto 20px auto;
+        }
+        .review img {
+            max-width: 100%;
+            max-height: 200px; 
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .stars {
+            color: #ffdd00;
+            margin-bottom: 10px;
+        }
+        .read-more {
+            color: blue;
+            cursor: pointer;
+        }
+        .hidden {
+            display: none;
+        }
+        .star-rating {
+            unicode-bidi: bidi-override;
+            direction: rtl;
+            font-size: 20px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        .star-rating span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            width: 1.1em;
+        }
+        .star-rating span:hover:before,
+        .star-rating span.active:before,
+        .star-rating span:hover ~ span:before {
+            content: '\2605';
+            position: absolute;
+            color: #ffdd00;
+        }
+        .star-rating span.active:before {
+            content: '\2605';
+            position: absolute;
+            color: #ffdd00;
+        }
+    </style>
+</head>
+<body>
+    <h1>Avaliações</h1>
+    <h2>Adicionar Avaliação</h2>
+    <form id="review-form">
+        <label for="image-upload">Anexar Imagem:</label><br>
+        <span style="margin-bottom: 50px;"></span> 
+        <input type="file" id="image-upload" name="image-upload"><br>
+        <label for="rating">Classificação (de <span style="color: yellow;">★</span> a <span style="color: yellow;">★★★★★</span> estrelas):</label><br>
+        <div class="star-rating" id="rating">
+            <span data-rating="5">&#9733;</span>
+            <span data-rating="4">&#9733;</span>
+            <span data-rating="3">&#9733;</span>
+            <span data-rating="2">&#9733;</span>
+            <span data-rating="1">&#9733;</span>
+        </div><br>
+        <label for="comment">Comentário:</label><br>
+        <textarea id="comment" name="comment" rows="4" cols="50"></textarea><br>
+        <button type="submit">Enviar Avaliação</button>
+    </form>
+
+    <div id="reviews-container"></div>
+    
+    <script>
+        document.getElementById("review-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var fileInput = document.getElementById("image-upload");
+            var image = fileInput.files[0];
+            var reader = new FileReader();
+            reader.onload = function() {
+                var imageUrl = reader.result;
+                var rating = parseInt(document.querySelector('.star-rating span[data-rating].active').getAttribute('data-rating'));
+                var comment = document.getElementById("comment").value;
+
+                addReview(imageUrl, rating, comment);
+
+                document.getElementById("review-form").reset();
+            };
+            reader.readAsDataURL(image);
+        });
+
+        function addReview(imageUrl, rating, comment) {
+            var container = document.getElementById("reviews-container");
+            var reviewDiv = document.createElement("div");
+            reviewDiv.classList.add("review");
+
+            var image = document.createElement("img");
+            image.src = imageUrl;
+            reviewDiv.appendChild(image);
+
+            var stars = "";
+            for (var i = 0; i < rating; i++) {
+                stars += "★";
+            }
+            for (var i = rating; i < 5; i++) {
+                stars += "☆";
+            }
+            var starsSpan = document.createElement("span");
+            starsSpan.classList.add("stars");
+            starsSpan.textContent = stars;
+            reviewDiv.appendChild(starsSpan);
+
+            var commentPara = document.createElement("p");
+            commentPara.textContent = comment;
+            reviewDiv.appendChild(commentPara);
+
+            // Calcula o número de linhas do comentário
+            var lineHeight = parseFloat(window.getComputedStyle(commentPara).lineHeight);
+            var commentHeight = commentPara.clientHeight;
+            var numLines = Math.round(commentHeight / lineHeight);
+
+            // Adiciona o botão "Ler mais" se o comentário tiver mais de 3 linhas
+            if (numLines > 3) {
+                var readMoreButton = document.createElement("button");
+                readMoreButton.textContent = "Ler mais";
+                readMoreButton.classList.add("read-more");
+                reviewDiv.appendChild(readMoreButton);
+                commentPara.classList.add("hidden");
+            }
+
+            container.appendChild(reviewDiv);
+        }
+
+        var reviewsContainer = document.getElementById("reviews-container");
+        reviewsContainer.addEventListener('click', function(event) {
+            if (event.target && event.target.classList.contains('read-more')) {
+                var commentPara = event.target.previousElementSibling;
+                commentPara.classList.toggle('hidden');
+                if (commentPara.classList.contains('hidden')) {
+                    event.target.textContent = 'Ler mais';
+                } else {
+                    event.target.textContent = 'Ler menos';
+                }
+            }
+        });
+
+        var starRating = document.querySelector('.star-rating');
+        starRating.addEventListener('click', function(e) {
+            if (e.target && e.target.matches('span')) {
+                var rating = e.target.getAttribute('data-rating');
+                var stars = document.querySelectorAll('.star-rating span');
+                stars.forEach(function(star) {
+                    if (parseInt(star.getAttribute('data-rating')) <= parseInt(rating)) {
+                        star.classList.add('active');
+                    } else {
+                        star.classList.remove('active');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+
+</div>
+<footer>
+    <p>© Casa do Microondas em Curitiba - Conserto de Microondas Curitiba<br>Projeto feito pelos seguintes usuários:
+    <a href="./paginaDeApresentacao.html">Clique aqui</a>
+    </p>
+    </footer>
+</body>
+</html>
